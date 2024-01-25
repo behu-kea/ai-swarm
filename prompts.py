@@ -28,7 +28,7 @@ def get_task_prompt(persona):
     return f"""
         Act like the following persona:
         {persona}
-        You have done the following exercises in a programming class.
+        You are on your 2. semester and have done the following exercises in a kotlin programming class.
         Please write 5 things that worked well and 5 things that can be improved. Keep it relatively short and concise and please answer in english!
         Exercises:
         ```

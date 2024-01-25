@@ -51,7 +51,7 @@ for persona in personas['personas']:
     )
 
     feedback = completion.choices[0].message.content
-    print("feedback", feedback)
+    #print("feedback", feedback)
     feedback_complete += f"Student {(counter + 1)} feedback: ```{feedback}```\n"
     counter += 1
 
