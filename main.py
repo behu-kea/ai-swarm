@@ -1,42 +1,19 @@
-# This is a sample Python script.
-
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
 from models.PersonaGenerator import PersonaGenerator
-from models.Persona import Persona
+from models.Person import Person
+from models.Exporter import Exporter
 
-import constants
+from generations import generation1
 
-# openai.api_key = os.getenv('OPENAI_API_KEY')
-# Load environment variables
+for i in range(generation1.number_of_personas):
+    persona_generator = PersonaGenerator(generation1.target_audience)
+    print(f"""Generating background for person {str(i + 1)}""")
+    person = Person(persona_generator.get_user_background())
+    print(f"""Background generated for person {str(i + 1)}""")
 
+    print(f"""Person {str(i + 1)} is performing their task""")
+    task_result = person.do_task(generation1.task, generation1.response_format)
+    print(f"""Person {str(i + 1)} is done with their task""")
 
-number_of_personas = 1
-for i in range(number_of_personas):
-    target_audience = "Students at it-architecture at KEA. Living close to copenhagen. Between 18 and 24. "
-    persona_generator = PersonaGenerator(target_audience)
-    persona_background = persona_generator.get_user_background()
-    person = Persona(persona_background)
-    print(person.background)
-
-    task_result = person.do_task(f"""You are on your 2. semester and have done the following exercises in a kotlin programming class.
-                Please write 5 things that worked well and 5 things that can be improved. Keep it relatively short and concise and please answer in english!
-                Exercises:
-                ```
-                {constants.EXERCISES}
-                ```
-                """)
-
-    print(task_result)
-
-# completion = client.chat.completions.create(
-#     model="gpt-4-1106-preview",
-#     messages=[
-#         {"role": "user", "content": f"""
-#         Act like a professional and feedback oriented lecturer. The students were asked to write what went well and what can be improved.
-#         Please write a clear and concise summary of the feedback given here. Dont go through each student, but just write the conclusion of the feedback: ```{feedback_complete}```
-#         """}
-#     ]
-# )
-#
-# print("Feedback summary: ", completion.choices[0].message.content)
+    print(f"""Exporting person {str(i + 1)}'s answer""")
+    Exporter.export_to_csv(person.id, task_result, 'exports/task_result.csv')
+    print(f"""Done exporting person {str(i + 1)}'s answer""")
